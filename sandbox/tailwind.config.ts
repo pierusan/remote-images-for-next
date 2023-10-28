@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 export default {
-  content: ["./sandbox/**/*.{html,ts,tsx}"],
+  content: ["./**/*.{html,ts,tsx}"],
   theme: {
     extend: {},
   },

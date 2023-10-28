@@ -1,5 +1,11 @@
+import { cn } from "./helpers/cn";
+
 function App() {
-  return <div className="w-screen h-screen bg-teal-800"></div>;
+  return (
+    <div
+      className={cn("w-screen h-screen bg-teal-800", "grid place-items-center")}
+    />
+  );
 }
 
 export default App;

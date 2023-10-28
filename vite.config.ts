@@ -9,6 +9,9 @@ export default defineConfig({
   server: {
     open: "/sandbox/",
   },
+  css: {
+    postcss: "sandbox",
+  },
   build: {
     lib: {
       // Could also be a dictionary or array of multiple entry points

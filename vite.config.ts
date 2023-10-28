@@ -1,4 +1,5 @@
-import { resolve } from "path";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import svgr from "vite-plugin-svgr";
@@ -15,7 +16,10 @@ export default defineConfig({
   build: {
     lib: {
       // Could also be a dictionary or array of multiple entry points
-      entry: resolve(__dirname, "lib/main.ts"),
+      entry: path.resolve(
+        path.dirname(fileURLToPath(import.meta.url)),
+        "lib/main.ts"
+      ),
       name: "RemoteImagesForNext",
       // the proper extensions will be added
       fileName: "remote-images-for-next",

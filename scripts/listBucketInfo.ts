@@ -1,2 +1,2 @@
 const bucketName = "my-bucket";
-console.log(bucketName);
+console.error(bucketName);

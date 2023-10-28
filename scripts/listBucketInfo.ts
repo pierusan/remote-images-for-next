@@ -1,2 +1,2 @@
-const bucketName = "my-bucket";
+const bucketName = 'my-bucket';
 console.error(bucketName);

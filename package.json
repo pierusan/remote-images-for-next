@@ -24,6 +24,7 @@
     "format:check": "prettier --check .",
     "type-check": "tsc"
   },
+  "peerDependencies": {},
   "dependencies": {
     "plaiceholder": "^3.0.0",
     "sharp": "^0.32.6"

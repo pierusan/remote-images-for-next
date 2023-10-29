@@ -13,6 +13,7 @@ const outputDirectory = path.resolve(
 );
 const gcsFolders = [
   { bucket: 'pierre-portfolio-assets', prefix: 'kate-portfolio-v2' },
+  { bucket: 'pierre-portfolio-assets', prefix: 'pierre-portfolio-v2' },
 ];
 
 const storage = new Storage();

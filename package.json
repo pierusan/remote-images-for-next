@@ -17,10 +17,15 @@
   },
   "scripts": {
     "sandbox": "vite",
-    "build": "tsc && vite build",
+    "build": "rm -rf dist && tsc --project tsconfig.build.json && vite build --emptyOutDir false",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "type-check": "tsc"
   },
+  "dependencies": {},
+  "peerDependencies": {},
   "devDependencies": {
     "@types/node": "^20.8.9",
     "@types/react": "^18.2.15",

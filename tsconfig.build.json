@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  // only run type checking and emit types for the lib entrypoint during the
+  // build
+  "include": ["lib/index.ts"],
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "dist",
+    // we only need tsc to emit declaration files because Vite will use esbuild
+    // for transpilation
+    "emitDeclarationOnly": true
+  }
+}

@@ -19,7 +19,7 @@ export default defineConfig({
       // Could also be a dictionary or array of multiple entry points
       entry: path.resolve(
         path.dirname(fileURLToPath(import.meta.url)),
-        'lib/main.ts'
+        'lib/index.ts'
       ),
       name: 'RemoteImagesForNext',
       // the proper extensions will be added

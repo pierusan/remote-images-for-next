@@ -1,5 +1,9 @@
-import { type ImageDimensions } from './types';
+import sharp from 'sharp';
 
-export function extractImageMetadata(): ImageDimensions {
-  return { width: 100, height: 100 };
+export async function extractImageMetadata(
+  imageBuffer: Buffer
+): Promise<{ width: number; height: number }> {
+  const { width, height } = await sharp(imageBuffer).metadata();
+  if (!width || !height) throw new Error('No width or height');
+  return { width, height };
 }

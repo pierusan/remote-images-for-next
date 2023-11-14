@@ -22,7 +22,8 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "extract-gcs-buckets-image-info": "npx tsx scripts/extractGcsBucketsImageInfo.ts"
   },
   "peerDependencies": {},
   "dependencies": {

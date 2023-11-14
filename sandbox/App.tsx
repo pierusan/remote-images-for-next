@@ -47,8 +47,10 @@ function App() {
         'grid grid-cols-[14rem_1fr] gap-x-20'
       )}
     >
-      <aside>
-        <ul className={cn('sticky top-4')}>
+      <aside
+        className={cn('sticky top-4 h-[calc(100dvh_-_2rem)] overflow-scroll')}
+      >
+        <ul>
           {Object.entries(buckets).map(([bucketName, images]) => (
             <li
               className={cn('flex flex-col', '[&:not(:first-of-type)]:mt-4')}

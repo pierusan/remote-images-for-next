@@ -53,5 +53,7 @@ await Promise.all(
       path.resolve(outputDirectory, resultFileName),
       JSON.stringify(imagesInfo)
     );
+    // eslint-disable-next-line no-console
+    console.log(`Wrote - ${resultFileName}`);
   })
 );

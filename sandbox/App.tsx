@@ -1,40 +1,64 @@
 import { Fragment } from 'react';
-import katePortfolioImages from '../scripts/output/pierre-portfolio-assets_kate-portfolio-v2.json';
-import pierrePortfolioImages from '../scripts/output/pierre-portfolio-assets_pierre-portfolio-v2.json';
+import katePortfolioMedia from '../scripts/output/pierre-portfolio-assets_kate-portfolio-v2.json';
+import pierrePortfolioMedia from '../scripts/output/pierre-portfolio-assets_pierre-portfolio-v2.json';
 import { cn } from './helpers/cn';
 
 const buckets = {
-  'kate-portfolio-v2': katePortfolioImages,
-  'pierre-portfolio-v2': pierrePortfolioImages,
+  'kate-portfolio-v2': katePortfolioMedia.images,
+  'pierre-portfolio-v2': pierrePortfolioMedia.images,
 };
 
 function FlippableImage({
-  bottomSrc,
-  topSrc,
+  src,
+  blurDataUrl,
+  blurOnTop,
   alt,
-  aspectRatio,
+  width,
+  height,
   className,
 }: {
-  bottomSrc: string;
-  topSrc: string;
+  src: string;
   alt: string;
-  aspectRatio: string;
+  width: number;
+  height: number;
+  blurDataUrl: string;
+  blurOnTop: boolean;
   className?: string;
 }) {
+  const originalImage = (
+    <img
+      className="col-start-1 row-start-1 w-full"
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+    />
+  );
+  const blurImage = (
+    <img
+      className={cn(
+        'col-start-1 row-start-1 w-full',
+        // Styles used by Next.js to display the blur placeholder
+        // (except it's background-position: 50% 50% instead of center)
+        'bg-cover bg-center bg-no-repeat'
+      )}
+      src={`data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'></svg>`} // Fake a valid source
+      alt={alt}
+      width={width}
+      height={height}
+      style={{
+        // Used by Next.js to display the blur placeholder
+        backgroundImage: `url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${width} ${height}'><filter id='b' color-interpolation-filters='sRGB'><feGaussianBlur stdDeviation='20'/><feColorMatrix values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 100 -1' result='s'/><feFlood x='0' y='0' width='100%' height='100%'/><feComposite operator='out' in='s'/><feComposite in2='SourceGraphic'/><feGaussianBlur stdDeviation='20'/></filter><image width='100%' height='100%' x='0' y='0' preserveAspectRatio='none' style='filter: url(%23b);' href='${blurDataUrl}'/></svg>")`,
+        // Uncomment to see the difference without the filter
+        // backgroundImage : `url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${width} ${height}'><image width='100%' height='100%' x='0' y='0' preserveAspectRatio='none' style='filter: url(%23b);' href='${blurDataUrl}'/></svg>")`,
+      }}
+    />
+  );
+
   return (
     <div className={cn('grid hover:[&>img:last-of-type]:opacity-0', className)}>
-      <img
-        className="col-start-1 row-start-1 w-full"
-        src={bottomSrc}
-        alt={alt}
-        style={{ aspectRatio }}
-      />
-      <img
-        className="col-start-1 row-start-1 w-full transition-opacity"
-        src={topSrc}
-        alt={alt}
-        style={{ aspectRatio }}
-      />
+      {blurOnTop ? blurImage : originalImage}
+      {blurOnTop ? originalImage : blurImage}
     </div>
   );
 }
@@ -47,8 +71,10 @@ function App() {
         'grid grid-cols-[14rem_1fr] gap-x-20'
       )}
     >
-      <aside>
-        <ul className={cn('sticky top-4')}>
+      <aside
+        className={cn('sticky top-4 h-[calc(100dvh_-_2rem)] overflow-scroll')}
+      >
+        <ul>
           {Object.entries(buckets).map(([bucketName, images]) => (
             <li
               className={cn('flex flex-col', '[&:not(:first-of-type)]:mt-4')}
@@ -108,31 +134,23 @@ function App() {
                     w:{info.width} | h: {info.height}
                   </span>
                 </h2>
-                {/* <img
+                <FlippableImage
+                  className={cn('w-full')}
                   src={info.src}
+                  blurDataUrl={info.blurDataURL}
+                  blurOnTop={false}
                   alt={name}
-                  className={cn('w-full')}
-                  style={{ aspectRatio: `${info.width}/${info.height}` }}
-                />
-                <img
-                  src={info.blurDataURL}
-                  alt={name}
-                  className={cn('w-full')}
-                  style={{ aspectRatio: `${info.width}/${info.height}` }}
-                /> */}
-                <FlippableImage
-                  className={cn('w-full')}
-                  topSrc={info.src}
-                  bottomSrc={info.blurDataURL}
-                  alt={name}
-                  aspectRatio={`${info.width}/${info.height}`}
+                  width={info.width}
+                  height={info.height}
                 />
                 <FlippableImage
                   className={cn('w-full')}
-                  bottomSrc={info.src}
-                  topSrc={info.blurDataURL}
+                  src={info.src}
+                  blurDataUrl={info.blurDataURL}
+                  blurOnTop={true}
                   alt={name}
-                  aspectRatio={`${info.width}/${info.height}`}
+                  width={info.width}
+                  height={info.height}
                 />
               </Fragment>
             ))}

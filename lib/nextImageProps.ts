@@ -1,3 +1,4 @@
+import { getFileName } from './fileName';
 import { extractImageMetadata } from './metadata';
 import { createBase64ImagePlaceholder } from './placeholder';
 
@@ -18,13 +19,7 @@ async function fetchImage(remoteImageUrl: string) {
 export async function getRemoteImageNextJsProps(
   remoteImageUrl: string
 ): Promise<RemoteImageProps & { name: string }> {
-  const imageName = decodeURIComponent(remoteImageUrl)
-    .split('/')
-    .pop()!
-    .split('.')
-    .slice(0, -1)
-    .join('.');
-
+  const imageName = getFileName(remoteImageUrl);
   const imageBuffer = await fetchImage(remoteImageUrl);
   const { width, height } = await extractImageMetadata(imageBuffer);
   const blurDataURL = await createBase64ImagePlaceholder(imageBuffer);

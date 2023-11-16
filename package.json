@@ -22,7 +22,8 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "extract-gcs-buckets-image-info": "npx tsx scripts/extractGcsBucketsImageInfo.ts"
   },
   "peerDependencies": {},
   "dependencies": {
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@google-cloud/storage": "^7.4.0",
+    "@types/fluent-ffmpeg": "^2.1.24",
     "@types/node": "^20.8.9",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
@@ -39,6 +41,7 @@
     "@vitejs/plugin-react-swc": "^3.3.2",
     "autoprefixer": "^10.4.16",
     "clsx": "^2.0.0",
+    "dotenv": "^16.3.1",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.29.0",
@@ -47,6 +50,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "eslint-plugin-unicorn": "^48.0.1",
+    "fluent-ffmpeg": "^2.1.2",
     "postcss": "^8.4.31",
     "postcss-nesting": "^12.0.1",
     "postcss-preset-env": "^9.2.0",

@@ -3,3 +3,4 @@ export {
   getRemoteImageNextJsProps,
   type RemoteImageProps,
 } from './nextImageProps';
+export { getFileName } from './fileName';

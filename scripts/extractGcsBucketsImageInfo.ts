@@ -6,6 +6,7 @@ import {
   type RemoteImageProps,
   getRemoteImageNextJsProps,
 } from '../lib/nextImageProps';
+import { getVideoProps } from './videoProps';
 
 const outputDirectory = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -18,40 +19,72 @@ const gcsFolders = [
 
 const storage = new Storage();
 
-async function listGCSFolderImages(bucket: string, prefix: string) {
+async function listGCSFolderMedia(
+  bucket: string,
+  prefix: string
+): Promise<{ url: string; type: 'image' | 'video' }[]> {
   const [allFiles] = await storage.bucket(bucket).getFiles({ prefix });
 
   const imageFileNames = allFiles
     .filter((file) => /^.*\.(jpg|JPG|jpeg|JPEG|png|PNG)$/.test(file.name))
-    .map((file) => file.publicUrl());
+    .map((file) => ({ url: file.publicUrl(), type: 'image' as const }));
 
-  return imageFileNames;
+  const videoFileNames = allFiles
+    .filter((file) => /^.*\.(mp4)$/.test(file.name))
+    .map((file) => ({ url: file.publicUrl(), type: 'video' as const }));
+
+  return [...imageFileNames, ...videoFileNames];
 }
 
-async function imagesInfoInBucket(
+async function mediaInfoInBucket(
   bucket: string,
   prefix: string
-): Promise<Record<string, RemoteImageProps>> {
-  const imageUrls = await listGCSFolderImages(bucket, prefix);
+): Promise<{
+  images: Record<string, RemoteImageProps>;
+  videos: Record<string, { src: string; width: number; height: number }>;
+}> {
+  const mediaUrls = await listGCSFolderMedia(bucket, prefix);
   const imageInfos = await Promise.all(
-    imageUrls.map(async (url) => await getRemoteImageNextJsProps(url))
+    mediaUrls
+      .filter(({ type }) => type === 'image')
+      .map(async ({ url }) => {
+        const imageProps = await getRemoteImageNextJsProps(url);
+        return { ...imageProps };
+      })
   );
 
-  return Object.fromEntries(
-    imageInfos.map((info) => {
-      const { name, ...rest } = info;
-      return [name, rest];
-    })
+  const videoInfos = await Promise.all(
+    mediaUrls
+      .filter(({ type }) => type === 'video')
+      .map(async ({ url }) => {
+        const videoProps = await getVideoProps(url);
+        return { ...videoProps };
+      })
   );
+
+  return {
+    images: Object.fromEntries(
+      [...imageInfos].map((info) => {
+        const { name, ...rest } = info;
+        return [name, rest];
+      })
+    ),
+    videos: Object.fromEntries(
+      [...videoInfos].map((info) => {
+        const { name, ...rest } = info;
+        return [name, rest];
+      })
+    ),
+  };
 }
 
 await Promise.all(
   gcsFolders.map(async ({ bucket, prefix }) => {
     const resultFileName = `${bucket}_${prefix}.json`;
-    const imagesInfo = await imagesInfoInBucket(bucket, prefix);
+    const mediaInfo = await mediaInfoInBucket(bucket, prefix);
     await writeFile(
       path.resolve(outputDirectory, resultFileName),
-      JSON.stringify(imagesInfo)
+      JSON.stringify(mediaInfo)
     );
     // eslint-disable-next-line no-console
     console.log(`Wrote - ${resultFileName}`);

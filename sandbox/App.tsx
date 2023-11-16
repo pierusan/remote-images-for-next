@@ -1,11 +1,11 @@
 import { Fragment } from 'react';
-import katePortfolioImages from '../scripts/output/pierre-portfolio-assets_kate-portfolio-v2.json';
-import pierrePortfolioImages from '../scripts/output/pierre-portfolio-assets_pierre-portfolio-v2.json';
+import katePortfolioMedia from '../scripts/output/pierre-portfolio-assets_kate-portfolio-v2.json';
+import pierrePortfolioMedia from '../scripts/output/pierre-portfolio-assets_pierre-portfolio-v2.json';
 import { cn } from './helpers/cn';
 
 const buckets = {
-  'kate-portfolio-v2': katePortfolioImages,
-  'pierre-portfolio-v2': pierrePortfolioImages,
+  'kate-portfolio-v2': katePortfolioMedia.images,
+  'pierre-portfolio-v2': pierrePortfolioMedia.images,
 };
 
 function FlippableImage({

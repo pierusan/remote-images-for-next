@@ -25,3 +25,6 @@ dist-ssr
 
 # Custom
 scripts/output/
+
+# Keep env variables secret
+.env

@@ -26,7 +26,9 @@ async function listGCSFolderMedia(
   const [allFiles] = await storage.bucket(bucket).getFiles({ prefix });
 
   const imageFileNames = allFiles
-    .filter((file) => /^.*\.(jpg|JPG|jpeg|JPEG|png|PNG)$/.test(file.name))
+    .filter((file) =>
+      /^.*\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/.test(file.name)
+    )
     .map((file) => ({ url: file.publicUrl(), type: 'image' as const }));
 
   const videoFileNames = allFiles

@@ -11,6 +11,6 @@ can be loaded once at dev time in your NextJS apps to try out the placeholders.
 Edit the `sandbox/App.tsx` to load your json and `npm run sandbox` to visualize
 the results.
 
-![sandbox image 1](https://storage.googleapis.com/bierro-repos-assets/remote-images-for-next/sandbox1.png)
+![sandbox image 1](https://storage.googleapis.com/github-pierusan-repos-assets/remote-images-for-next/sandbox1.png)
 
-![sandbox image 2](https://storage.googleapis.com/bierro-repos-assets/remote-images-for-next/sandbox2.png)
+![sandbox image 2](https://storage.googleapis.com/github-pierusan-repos-assets/remote-images-for-next/sandbox2.png)

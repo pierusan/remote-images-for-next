@@ -3,11 +3,18 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import svgr from 'vite-plugin-svgr';
+import Inspect from 'vite-plugin-inspect';
 import pkg from './package.json';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), svgr()],
+  plugins: [
+    react(),
+    svgr(),
+    // To debug what Vite is doing an how it's transforming code
+    // Go to http://localhost:PORT/__inspect to view inspector
+    Inspect(),
+  ],
   server: {
     open: '/sandbox/',
   },
